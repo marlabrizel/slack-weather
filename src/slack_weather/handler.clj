@@ -14,8 +14,10 @@
 
 (defn post-to-slack
   [url msg]
-  (client/post url {:body (json/write-str msg)
-                    :content-type :json}))
+  (let [m (merge m {:username "Weather Bot"
+                    :icon_emoji ":sun_small_cloud:"})]
+    (client/post url {:body (json/write-str m)
+                      :content-type :json})))
 
 (def app
   (wrap-defaults app-routes site-defaults))
