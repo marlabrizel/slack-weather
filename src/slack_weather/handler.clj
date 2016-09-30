@@ -3,14 +3,31 @@
             [compojure.route :as route]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [clj-http.client :as client]
-            [clojure.data.json :as json]))
+            [clojure.data.json :as json]
+            [environ.core :refer [env]]))
 
 (defroutes app-routes
   (GET "/" [] "Hello World")
   (route/not-found "Not Found"))
 
+(def api-key
+  (env :api-key))
+
 (def hook-url
   "https://hooks.slack.com/services/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")
+
+(defn get-weather-by-zip
+  "Returns current weather conditions for the given zipcode"
+  [zipcode]
+  (let [content (-> (str "http://api.openweathermap.org/data/2.5/weather?zip="
+                         zipcode
+                         ",us&APPID="
+                         api-key)
+                    client/get
+                    :body
+                    json/read-str)]
+    content))
+
 
 (defn post-to-slack
   [url msg]
