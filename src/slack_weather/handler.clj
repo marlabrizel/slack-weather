@@ -14,8 +14,8 @@
 
 (defn post-to-slack
   [url msg]
-  (let [m (merge m {:username "Weather Bot"
-                    :icon_emoji ":sun_small_cloud:"})]
+  (let [m (merge msg {:username "Weather Bot"
+                      :icon_emoji ":sun_small_cloud:"})]
     (client/post url {:body (json/write-str m)
                       :content-type :json})))
 
