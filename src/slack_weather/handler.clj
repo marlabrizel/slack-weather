@@ -16,11 +16,24 @@
 (def hook-url
   "https://hooks.slack.com/services/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")
 
+(defn pull-response-values
+  [m val-map]
+  (into {} (for [[k v] val-map]
+             [k (get-in m (if (sequential? v) v [v]))])))
+
 (defn get-weather-by-zip
   "Returns current weather conditions for the given zipcode"
   [zipcode]
-  (let [content (-> (str "http://api.openweathermap.org/data/2.5/weather?zip="
-                         zipcode
+  (-> (str "http://api.openweathermap.org/data/2.5/weather?zip="
+           zipcode
+           ",us&APPID="
+           api-key)
+      client/get
+      :body
+      json/read-str
+      ;(prn)
+      (pull-response-values {:name ["name"]})))
+
                          ",us&APPID="
                          api-key)
                     client/get
