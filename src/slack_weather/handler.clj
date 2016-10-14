@@ -31,16 +31,7 @@
       client/get
       :body
       json/read-str
-      ;(prn)
       (pull-response-values {:name ["name"]})))
-
-                         ",us&APPID="
-                         api-key)
-                    client/get
-                    :body
-                    json/read-str)]
-    content))
-
 
 (defn post-to-slack
   [url msg]
