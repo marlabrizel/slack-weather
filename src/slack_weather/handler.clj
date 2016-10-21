@@ -50,5 +50,14 @@
     (client/post url {:body (json/write-str m)
                       :content-type :json})))
 
+(defn weather->slack
+  "Posts weather forecast to Slack"
+  [zip]
+  (let [weather (->
+                  zip
+                  get-weather-by-zip
+                  weather->string)]
+    (post-to-slack hook-url {:text weather})))
+
 (def app
   (wrap-defaults app-routes site-defaults))
