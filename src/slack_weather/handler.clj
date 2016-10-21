@@ -26,7 +26,7 @@
   [zipcode]
   (-> (str "http://api.openweathermap.org/data/2.5/weather?zip="
            zipcode
-           ",us&APPID="
+           ",us&units=imperial&APPID="
            api-key)
       client/get
       :body
