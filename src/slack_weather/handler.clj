@@ -31,7 +31,11 @@
       client/get
       :body
       json/read-str
-      (pull-response-values {:name ["name"]})))
+      (pull-response-values {:name ["name"]
+                             :temp ["main" "temp"]
+                             :humidity ["main" "humidity"]
+                             :wind ["wind" "speed"]
+                             :conditions ["weather" 0 "main"]})))
 
 (defn post-to-slack
   [url msg]
