@@ -14,7 +14,7 @@
   (env :api-key))
 
 (def hook-url
-  "https://hooks.slack.com/services/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")
+  (env :hook-url))
 
 (defn pull-response-values
   [m val-map]
@@ -44,11 +44,11 @@
        ". Humidity is at " (:humidity w) "%, with winds of " (:wind w) " mph."))
 
 (defn post-to-slack
-  [url msg]
+  [msg]
   (let [m (merge msg {:username "Weather Bot"
                       :icon_emoji ":sun_small_cloud:"})]
-    (client/post url {:body (json/write-str m)
-                      :content-type :json})))
+    (client/post hook-url {:body (json/write-str m)
+                           :content-type :json})))
 
 (defn weather->slack
   "Posts weather forecast to Slack"
@@ -57,7 +57,7 @@
                   zip
                   get-weather-by-zip
                   weather->string)]
-    (post-to-slack hook-url {:text weather})))
+    (post-to-slack {:text weather})))
 
 (def app
   (wrap-defaults app-routes site-defaults))
