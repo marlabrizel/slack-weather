@@ -37,6 +37,12 @@
                              :wind ["wind" "speed"]
                              :conditions ["weather" 0 "main"]})))
 
+(defn weather->string
+  "Transforms result of calling `get-weather-by-zip` into a readable forecast."
+  [w]
+  (str "Forecast for " (:name w) ": " (:temp w)" F and " (:conditions w)
+       ". Humidity is at " (:humidity w) "%, with winds of " (:wind w) " mph."))
+
 (defn post-to-slack
   [url msg]
   (let [m (merge msg {:username "Weather Bot"
