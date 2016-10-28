@@ -7,7 +7,11 @@
             [environ.core :refer [env]]))
 
 (defroutes app-routes
-  (GET "/" [] "Hello World")
+  (POST "/slack" request
+    {:status 200
+     :content-type "text/plain"
+     :body "Stand by"})
+  (route/resources "/")
   (route/not-found "Not Found"))
 
 (def api-key
