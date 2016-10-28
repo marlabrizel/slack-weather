@@ -86,4 +86,4 @@
   (wrap-defaults app-routes site-defaults))
 
 (defn -main [& args]
-  (run-jetty app {:port (env :port)}))
+  (run-jetty app {:port (Integer/parseInt (env :port))}))
