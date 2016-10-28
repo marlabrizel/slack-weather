@@ -20,22 +20,6 @@
 (def hook-url
   (env :hook-url))
 
-(defroutes app-routes
-  (POST "/slack" {:keys [params] :as request}
-    (if (and (= "/weather" (:command params))
-             (= auth-token (:token params))
-             (validate-zip (:text params)))
-      (do
-        (thread (weather->slack (str/trim (:text params))))
-        {:status 200
-         :content-type "text/plain"
-         :body "Fetching the weather..."})
-      {:status 400
-       :content-type "text/plain"
-       :body "Please enter a valid zip code."}))
-  (route/resources "/")
-  (route/not-found "Not Found"))
-
 (defn pull-response-values
   [m val-map]
   (into {} (for [[k v] val-map]
@@ -70,7 +54,7 @@
     (client/post hook-url {:body (json/write-str m)
                            :content-type :json})))
 
-(defn weather->slack
+(defn weather-to-slack
   "Posts weather forecast to Slack"
   [zip]
   (let [weather (->
@@ -78,6 +62,23 @@
                   get-weather-by-zip
                   weather->string)]
     (post-to-slack {:text weather})))
+
+
+(defroutes app-routes
+  (POST "/slack" {:keys [params] :as request}
+    (if (and (= "/weather" (:command params))
+             (= auth-token (:token params))
+             (validate-zip (:text params)))
+      (do
+        (thread (weather-to-slack (str/trim (:text params))))
+        {:status 200
+         :content-type "text/plain"
+         :body "Fetching the weather..."})
+      {:status 400
+       :content-type "text/plain"
+       :body "Please enter a valid zip code."}))
+  (route/resources "/")
+  (route/not-found "Not Found"))
 
 (def app
   (wrap-defaults app-routes site-defaults))
