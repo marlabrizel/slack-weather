@@ -4,13 +4,26 @@
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [clj-http.client :as client]
             [clojure.data.json :as json]
+            [clojure.string :as str]
+            [clojure.core.async :refer [thread]]
             [environ.core :refer [env]]))
 
+(defn validate-zip [zip]
+  (re-matches #"^\d{5}$" (str/trim zip)))
+
 (defroutes app-routes
-  (POST "/slack" request
-    {:status 200
-     :content-type "text/plain"
-     :body "Stand by"})
+  (POST "/slack" {:keys [params] :as request}
+    (if (and (= "/weather" (:command params))
+             (= auth-token (:token params))
+             (validate-zip (:text params)))
+      (do
+        (thread (weather->slack (str/trim (:text params))))
+        {:status 200
+         :content-type "text/plain"
+         :body "Fetching the weather..."})
+      {:status 400
+       :content-type "text/plain"
+       :body "Please enter a valid zip code."}))
   (route/resources "/")
   (route/not-found "Not Found"))
 
