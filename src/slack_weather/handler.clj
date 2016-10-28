@@ -11,6 +11,15 @@
 (defn validate-zip [zip]
   (re-matches #"^\d{5}$" (str/trim zip)))
 
+(def auth-token
+  (env :auth-token))
+
+(def api-key
+  (env :api-key))
+
+(def hook-url
+  (env :hook-url))
+
 (defroutes app-routes
   (POST "/slack" {:keys [params] :as request}
     (if (and (= "/weather" (:command params))
@@ -26,12 +35,6 @@
        :body "Please enter a valid zip code."}))
   (route/resources "/")
   (route/not-found "Not Found"))
-
-(def api-key
-  (env :api-key))
-
-(def hook-url
-  (env :hook-url))
 
 (defn pull-response-values
   [m val-map]
