@@ -2,6 +2,7 @@
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
+            [ring.adapter.jetty :refer [run-jetty]]
             [clj-http.client :as client]
             [clojure.data.json :as json]
             [clojure.string :as str]
@@ -83,3 +84,6 @@
 
 (def app
   (wrap-defaults app-routes site-defaults))
+
+(defn -main [& args]
+  (run-jetty app {:port (env :port)}))
