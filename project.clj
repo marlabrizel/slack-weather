@@ -18,4 +18,5 @@
                                [ring/ring-mock "0.3.0"]]}
    :dev-overrides {}
    :dev [:dev-common :dev-overrides]
-   :uberjar {:aot :all}})
+   :uberjar {:aot :all}}
+  :main slack-weather.handler)

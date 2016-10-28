@@ -6,7 +6,8 @@
             [clojure.data.json :as json]
             [clojure.string :as str]
             [clojure.core.async :refer [thread]]
-            [environ.core :refer [env]]))
+            [environ.core :refer [env]])
+  (:gen-class))
 
 (defn validate-zip [zip]
   (re-matches #"^\d{5}$" (str/trim zip)))
