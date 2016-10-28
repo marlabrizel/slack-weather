@@ -8,7 +8,8 @@
                  [org.clojure/data.json "0.2.6"]
                  [org.clojure/core.async "0.2.385"]
                  [clj-http "2.2.0"]
-                 [environ "1.1.0"]]
+                 [environ "1.1.0"]
+                 [lein-heroku "0.5.3"]]
   :plugins [[lein-ring "0.9.7"]
             [lein-environ "1.1.0"]]
   :ring {:handler slack-weather.handler/app}
@@ -16,4 +17,5 @@
   {:dev-common {:dependencies [[javax.servlet/servlet-api "2.5"]
                                [ring/ring-mock "0.3.0"]]}
    :dev-overrides {}
-   :dev [:dev-common :dev-overrides]})
+   :dev [:dev-common :dev-overrides]
+   :uberjar {:aot :all}})
