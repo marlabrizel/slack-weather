@@ -1,1 +1,1 @@
-web: java $JVM_OPTS -jar target/slack-weather-standalone.jar
+web: java $JVM_OPTS -jar target/slack-weather.jar
