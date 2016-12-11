@@ -20,12 +20,13 @@ To start a web server for the application, run:
 
 ## Running in Production
 To deploy and run in your own Slack organization, first clone this repository:
-    `git clone git@github.com:marlabrizel/slack-weather.git`
+    
+    git clone git@github.com:marlabrizel/slack-weather.git
 
 You'll then need to create a `profiles.clj` in your project root. You'll store
 your own api key for OpenWeatherMap's [Current Weather
 API](https://openweathermap.org/current) in here plus your Slack webhook and
-authentication token. See below for a sample `project.clj`
+authentication token. See below for a sample `profiles.clj`
 
 ```clojure
 {:dev-overrides
@@ -38,7 +39,7 @@ authentication token. See below for a sample `project.clj`
 Once you've set up your `profiles.clj`, you'll need to deploy the service
 somewhere. I like Heroku because it's free for the basic tier, plus they offer
 [well-documented](https://devcenter.heroku.com/articles/getting-started-with-clojure#deploy-the-app)
-Clojure support.
+Clojure support. If you prefer something else, go nuts.
 
 ## License
 
